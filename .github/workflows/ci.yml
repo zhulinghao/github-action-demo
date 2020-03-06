@@ -1,0 +1,26 @@
+name: GitHub Actions Build and Deploy Demo
+on:
+  # 触发条件 & 指定分支
+  push:
+    branches:
+      - master
+jobs:
+  # job
+  build-and-deploy:
+    # 运行环境
+    runs-on: ubuntu-latest
+    steps:
+    # 获取master分支的源码
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Build and Deploy
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        # 自己定义的密钥令牌
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        # 发布分支
+        BRANCH: gh-pages
+        # 构建结果所在目录
+        FOLDER: dist
+        BUILD_SCRIPT: yarn install && yarn build
